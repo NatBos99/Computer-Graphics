@@ -29,18 +29,23 @@ void MainView::initializeGL() {
     qDebug() << ":: Using OpenGL" << qPrintable(glVersion);
 
     Vertex v1 = makeVertex(0.0, 0.5, 1.0, 0.0, 0.0);
-    Vertex v2 = makeVertex(-0.5, 0.0, 0.0, 1.0, 0.0);
-    Vertex v3 = makeVertex(0.5, 0.0, 0.0, 0.0, 1.0);
+    Vertex v2 = makeVertex(0.5, 0.0, 0.0, 0.0, 1.0);
+    Vertex v3 = makeVertex(-0.5, 0.0, 0.0, 1.0, 0.0);
 
-    QVector<Vertex> vertexVector{v1, v2, v3};
+    Vertex vertexVector[3] = {v1, v2, v3};
 
     glGenBuffers(1, &vbo);
     glGenVertexArrays(1, &vao);
     shaders.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/vertshader.glsl");
     shaders.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/fragshader.glsl");
+    shaders.link();
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*3, &vertexVector, GL_STREAM_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*3, vertexVector, GL_STREAM_DRAW);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(0, 2,  GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
+    glVertexAttribPointer(1, 3,  GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(2 * sizeof(GLfloat)));
 }
 
 void MainView::resizeGL(int newWidth, int newHeight) {
@@ -49,10 +54,6 @@ void MainView::resizeGL(int newWidth, int newHeight) {
 }
 
 void MainView::paintGL() {
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(0, 2,  GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-    glVertexAttribPointer(1, 3,  GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glBindVertexArray(vao);
     shaders.bind();
