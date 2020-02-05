@@ -33,6 +33,9 @@ protected:
 
 private:
     QOpenGLDebugLogger debugLogger;
+    GLuint vbo;
+    GLuint vao;
+    QOpenGLShaderProgram shaders;
 
 private slots:
     void onMessageLogged(QOpenGLDebugMessage Message);
