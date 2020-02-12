@@ -58,11 +58,13 @@ private:
     GLuint vboPyramid;
     GLuint vaoPyramid;
 
+    GLint modelLoc;
+    GLint projectionLoc;
+
     QMatrix4x4 *modelCube;
     QMatrix4x4 *modelPyramid;
 
-    QMatrix4x4 *projectionCube;
-    QMatrix4x4 *projectionPyramid;
+    QMatrix4x4 *projection;
 
     void createShaderProgram();
 };

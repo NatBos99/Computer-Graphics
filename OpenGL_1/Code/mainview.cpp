@@ -22,6 +22,18 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
                                   0,  1,  0,  0,
                                   0,  0,  1,  6,
                                   0,  0,  0,  1);
+
+    double  n = 0.0,
+            f = 10.0,
+            l = 20.0,
+            r = 20.0,
+            t = 20.0,
+            b = 20.0;
+
+    projection = new QMatrix4x4(2 * n / (r - l),    0,                  (r + l) / (r - l),      0,
+                               0,                   2 * n / (t - b),    (t + b) / (t - b),      0,
+                               0,                   0,                  (n + f) / (n - f),     2 * f * n / (n - f),
+                               0,                   0,                  -1,                     0);
 }
 
 /**
@@ -40,6 +52,10 @@ MainView::~MainView() {
     glDeleteBuffers(1, &vboCube);
     glDeleteVertexArrays(1, &vaoPyramid);
     glDeleteBuffers(1, &vboPyramid);
+
+    delete modelCube;
+    delete modelPyramid;
+    delete projection;
 }
 
 // --- OpenGL initialization
@@ -138,6 +154,9 @@ void MainView::createShaderProgram() {
     shaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment,
                                            ":/shaders/fragshader.glsl");
     shaderProgram.link();
+
+    modelLoc = shaderProgram.uniformLocation("modelTransformation");
+    projectionLoc = shaderProgram.uniformLocation("projectionTransformation");
 }
 
 // --- OpenGL drawing
@@ -155,8 +174,13 @@ void MainView::paintGL() {
     shaderProgram.bind();
 
     // Draw here
+    glUniformMatrix4fv(projectionLoc, 1, false, projection->data());
+
+    glUniformMatrix4fv(modelLoc, 1, false, modelCube->data());
     glBindVertexArray(vaoCube);
     glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    glUniformMatrix4fv(modelLoc, 1, false, modelPyramid->data());
     glBindVertexArray(vaoPyramid);
     glDrawArrays(GL_TRIANGLES, 0, 18);
 
