@@ -14,26 +14,36 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
     qDebug() << "MainView constructor";
 
     connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
-    modelCube = new QMatrix4x4(1,  0,  0,  2,
-                               0,  1,  0,  0,
-                               0,  0,  1, -6,
-                               0,  0,  0,  1);
-    modelPyramid = new QMatrix4x4(1,  0,  0,  2,
-                                  0,  1,  0,  0,
-                                  0,  0,  1,  6,
-                                  0,  0,  0,  1);
 
-    double  n = 0.0,
-            f = 10.0,
-            l = 20.0,
-            r = 20.0,
-            t = 20.0,
-            b = 20.0;
+    modelCube = new QMatrix4x4();
+    modelPyramid = new QMatrix4x4();
 
-    projection = new QMatrix4x4(2 * n / (r - l),    0,                  (r + l) / (r - l),      0,
-                               0,                   2 * n / (t - b),    (t + b) / (t - b),      0,
-                               0,                   0,                  (n + f) / (n - f),     2 * f * n / (n - f),
-                               0,                   0,                  -1,                     0);
+    modelCube->translate(2, 0, -6);
+    modelPyramid->translate(-2, 0, -6);
+
+//    modelCube = new QMatrix4x4(1,  0,  0,  2,
+//                               0,  1,  0,  0,
+//                               0,  0,  1, -6,
+//                               0,  0,  0,  1);
+//    modelPyramid = new QMatrix4x4(1,  0,  0,  2,
+//                                  0,  1,  0,  0,
+//                                  0,  0,  1,  6,
+//                                  0,  0,  0,  1);
+
+
+
+//    double  n = 0.0,
+//            f = 10.0,
+//            l = 20.0,
+//            r = 20.0,
+//            t = 20.0,
+//            b = 20.0;
+//    projection = new QMatrix4x4(2 * n / (r - l),    0,                  (r + l) / (r - l),      0,
+//                               0,                   2 * n / (t - b),    (t + b) / (t - b),      0,
+//                               0,                   0,                  (n + f) / (n - f),     2 * f * n / (n - f),
+//                               0,                   0,                  -1,                     0);
+    projection = new QMatrix4x4();
+    projection->perspective(60.0, 1.459f, 0.1f, 10.0f);
 }
 
 /**
@@ -173,15 +183,17 @@ void MainView::paintGL() {
 
     shaderProgram.bind();
 
-    // Draw here
-    glUniformMatrix4fv(projectionLoc, 1, false, projection->data());
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, projection->data());
 
-    glUniformMatrix4fv(modelLoc, 1, false, modelCube->data());
+    // Draw here
+
     glBindVertexArray(vaoCube);
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, modelCube->data());
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
-    glUniformMatrix4fv(modelLoc, 1, false, modelPyramid->data());
+
     glBindVertexArray(vaoPyramid);
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, modelPyramid->data());
     glDrawArrays(GL_TRIANGLES, 0, 18);
 
     shaderProgram.release();
@@ -196,9 +208,8 @@ void MainView::paintGL() {
  * @param newHeight
  */
 void MainView::resizeGL(int newWidth, int newHeight) {
-    // TODO: Update projection to fit the new aspect ratio
-    Q_UNUSED(newWidth)
-    Q_UNUSED(newHeight)
+    projection = new QMatrix4x4();
+    projection->perspective(60.0f, (float)newWidth/(float)newHeight, 1.0f, 10.0f);
 }
 
 // --- Public interface
