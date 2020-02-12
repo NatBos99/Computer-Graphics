@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.1, 2019-02-20T11:36:32. -->
+<!-- Written by QtCreator 3.5.1, 2020-02-12T15:44:23. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -239,8 +239,8 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">OpenGL_transformations</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/s3475344/Desktop/cg/OpenGL_1_final/Code/OpenGL_transformations.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">OpenGL_transformations2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/old/OpenGL_1_final/Code/OpenGL_transformations.pro</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">OpenGL_transformations.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>

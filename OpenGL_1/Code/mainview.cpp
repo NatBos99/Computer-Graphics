@@ -18,8 +18,8 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
     modelCube = new QMatrix4x4();
     modelPyramid = new QMatrix4x4();
 
-    modelCube->translate(2, 0, -6);
-    modelPyramid->translate(-2, 0, -6);
+//    modelCube->translate(0, 0, 0);
+//    modelPyramid->translate(0, 0, 0);
 
 //    modelCube = new QMatrix4x4(1,  0,  0,  2,
 //                               0,  1,  0,  0,
@@ -43,7 +43,7 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
 //                               0,                   0,                  (n + f) / (n - f),     2 * f * n / (n - f),
 //                               0,                   0,                  -1,                     0);
     projection = new QMatrix4x4();
-    projection->perspective(60.0, 1.459f, 0.1f, 10.0f);
+//    projection->perspective(60.0, 1.459f, 0.1f, 10.0f);
 }
 
 /**
@@ -96,7 +96,7 @@ void MainView::initializeGL() {
     glEnable(GL_DEPTH_TEST);
 
     // Enable backface culling
-    glEnable(GL_CULL_FACE);
+//    glEnable(GL_CULL_FACE);
 
     // Default is GL_LESS
     glDepthFunc(GL_LEQUAL);
@@ -183,17 +183,17 @@ void MainView::paintGL() {
 
     shaderProgram.bind();
 
-    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, projection->data());
+//    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, projection->data());
 
     // Draw here
 
     glBindVertexArray(vaoCube);
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, modelCube->data());
+//    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, modelCube->data());
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
     glBindVertexArray(vaoPyramid);
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, modelPyramid->data());
+//    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, modelPyramid->data());
     glDrawArrays(GL_TRIANGLES, 0, 18);
 
     shaderProgram.release();
