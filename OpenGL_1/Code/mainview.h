@@ -61,8 +61,10 @@ private:
     QMatrix4x4 *modelCube;
     QMatrix4x4 *modelPyramid;
 
-    QMatrix4x4 *projectionCube;
-    QMatrix4x4 *projectionPyramid;
+    QMatrix4x4 *projection;
+
+    GLint modelTransformLoc;
+    GLint projectionTransformLoc;
 
     void createShaderProgram();
 };
