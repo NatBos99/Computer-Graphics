@@ -53,6 +53,16 @@ private:
     QTimer timer; // timer used for animation
 
     QOpenGLShaderProgram shaderProgram;
+    GLuint vboCube;
+    GLuint vaoCube;
+    GLuint vboPyramid;
+    GLuint vaoPyramid;
+
+    QMatrix4x4 *modelCube;
+    QMatrix4x4 *modelPyramid;
+
+    QMatrix4x4 *projectionCube;
+    QMatrix4x4 *projectionPyramid;
 
     void createShaderProgram();
 };

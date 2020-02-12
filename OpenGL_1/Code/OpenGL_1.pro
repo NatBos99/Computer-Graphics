@@ -12,12 +12,14 @@ SOURCES += \
     mainwindow.cpp \
     mainview.cpp \
     user_input.cpp \
-    model.cpp
+    model.cpp \
+    vertex.cpp
 
 HEADERS += \
     mainwindow.h \
     mainview.h \
-    model.h
+    model.h \
+    vertex.h
 
 FORMS += \
     mainwindow.ui
