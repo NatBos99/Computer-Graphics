@@ -57,14 +57,33 @@ private:
     GLuint vaoCube;
     GLuint vboPyramid;
     GLuint vaoPyramid;
+    GLuint vboSphere;
+    GLuint vaoSphere;
+
+    int sphereSize;
 
     QMatrix4x4 *modelCube;
     QMatrix4x4 *modelPyramid;
+    QMatrix4x4 *modelSphere;
 
     QMatrix4x4 *projection;
 
+    QMatrix4x4 *cubeScaling;
+    QMatrix4x4 *pyramidScaling;
+    QMatrix4x4 *sphereScaling;
+
+    QMatrix4x4 *cubeRotation;
+    QMatrix4x4 *pyramidRotation;
+    QMatrix4x4 *sphereRotation;
+
     GLint modelTransformLoc;
     GLint projectionTransformLoc;
+
+    QVector<QVector3D> sphere;
+
+    bool mousePressed = false;
+    int initX;
+    int initY;
 
     void createShaderProgram();
 };

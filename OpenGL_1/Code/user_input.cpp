@@ -45,6 +45,14 @@ void MainView::mouseMoveEvent(QMouseEvent *ev)
 {
     qDebug() << "x" << ev->x() << "y" << ev->y();
 
+    // Change rotation based on mouse movement, part 2
+    if (mousePressed) {
+        int diffX = ev->x() - initX;
+        int diffY = ev->y() - initY;
+
+        initX += diffX;
+        initY += diffY;
+    }
     update();
 }
 
@@ -52,6 +60,11 @@ void MainView::mouseMoveEvent(QMouseEvent *ev)
 void MainView::mousePressEvent(QMouseEvent *ev)
 {
     qDebug() << "Mouse button pressed:" << ev->button();
+
+    // Change rotation based on mouse movement, part 1
+    mousePressed = true;
+    initX = ev->x();
+    initY = ev->y();
 
     update();
     // Do not remove the line below, clicking must focus on this widget!
@@ -62,6 +75,9 @@ void MainView::mousePressEvent(QMouseEvent *ev)
 void MainView::mouseReleaseEvent(QMouseEvent *ev)
 {
     qDebug() << "Mouse button released" << ev->button();
+
+    // Change rotation based on mouse movement, part 3
+    mousePressed = false;
 
     update();
 }
