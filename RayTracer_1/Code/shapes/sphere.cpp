@@ -24,7 +24,9 @@ Hit Sphere::intersect(Ray const &ray)
 
     // Placeholder for actual intersection calculation.
     Vector OC = (position - ray.O).normalized();
-    if (OC.dot(ray.D) < 0.999) {
+    Vector perp = OC * ray.D * ray.D / ray.D.length_2();
+    Vector Cperp = perp - OC;
+    if (Cperp.length > r) {
         return Hit::NO_HIT();
     }
     double t = 1000;
