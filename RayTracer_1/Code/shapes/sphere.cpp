@@ -22,14 +22,17 @@ Hit Sphere::intersect(Ray const &ray)
     * intersection point from the ray origin in *t (see example).
     ****************************************************/
 
-    // Placeholder for actual intersection calculation.
-    Vector OC = (position - ray.O).normalized();
-    Vector perp = OC * ray.D * ray.D / ray.D.length_2();
+    Vector OC = position - ray.O;
+    if (OC.dot(ray.D) <= 0) {
+				return Hit::NO_HIT();
+    }
+    Vector perp = OC.dot(ray.D) * ray.D;
     Vector Cperp = perp - OC;
-    if (Cperp.length > r) {
+    if (Cperp.length() > r) {
         return Hit::NO_HIT();
     }
-    double t = 1000;
+    double cplen = Cperp.length();
+    double t = perp.length() - tan(acos(cplen/r))*cplen;
 
     /****************************************************
     * RT1.2: NORMAL CALCULATION
@@ -40,7 +43,8 @@ Hit Sphere::intersect(Ray const &ray)
     * Insert calculation of the sphere's normal at the intersection point.
     ****************************************************/
 
-    Vector N /* = ... */;
+    Vector N = t*ray.D - OC;
+    N.normalize();
 
     return Hit(t, N);
 }

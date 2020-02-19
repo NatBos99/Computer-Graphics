@@ -2,7 +2,20 @@
 
 Hit Triangle::intersect(Ray const &ray)
 {
-    return Hit::NO_HIT(); // placeholder
+		if (N.dot(ray.D) >= 0) {
+				return Hit::NO_HIT();
+		}
+		
+    Vector OS = v0 - ray.O;
+		Vector perp = OS.dot(ray.D) * ray.D;
+		Vector Sperp = perp - OS;
+		Vector Sint = N.cross(Sperp);
+		Sint = Sint.cross(N);
+    
+    
+    double t;
+    
+    return Hit(t, N);
 }
 
 Triangle::Triangle(Point const &v0,
@@ -14,6 +27,5 @@ Triangle::Triangle(Point const &v0,
     v2(v2),
     N()
 {
-    // Calculate the surface normal here and store it in the N,
-    // which is declared in the header. It can then be used in the intersect function.
+    N = (v1-v0).cross(v2-v0);
 }

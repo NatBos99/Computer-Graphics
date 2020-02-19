@@ -51,8 +51,25 @@ Color Scene::trace(Ray const &ray)
     *        Color * Color      ditto
     *        pow(a,b)           a to the power of b
     ****************************************************/
-
-    Color color = material.color;               // placeholder
+		
+		Color color(0.0, 0.0, 0.0);
+		
+		Color ambient, diffuse, specular;
+		
+		for (unsigned i = 0; i < lights.size(); ++i) {
+				Vector L = lights[i]->position - hit;
+				L.normalize();
+				Vector R = 2 * N.dot(L) * N - L;
+				diffuse = max(N.dot(L), 0.0) * material.color * lights[i]->color * material.kd;
+				specular = pow(max(R.dot(V), 0.0), material.n) * lights[i]->color * material.ks;
+				color += diffuse + specular;
+		}
+		ambient = material.color * material.ka;
+		
+		/* normal mapping */
+		// color = (N + 1) / 2; 
+		
+    color += ambient;
 
     return color;
 }
