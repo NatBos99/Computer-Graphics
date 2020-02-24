@@ -491,6 +491,8 @@ limits
 /home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_1/Code/shapes/quad.h
 ../object.h
 /home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_1/Code/object.h
+triangle.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_1/Code/shapes/triangle.h
 
 /home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_1/Code/shapes/sphere.cpp
 sphere.h

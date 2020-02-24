@@ -82,6 +82,7 @@ CMakeFiles/ray.dir/Code/shapes/quad.cpp.o: ../Code/object.h
 CMakeFiles/ray.dir/Code/shapes/quad.cpp.o: ../Code/ray.h
 CMakeFiles/ray.dir/Code/shapes/quad.cpp.o: ../Code/shapes/quad.cpp
 CMakeFiles/ray.dir/Code/shapes/quad.cpp.o: ../Code/shapes/quad.h
+CMakeFiles/ray.dir/Code/shapes/quad.cpp.o: ../Code/shapes/triangle.h
 CMakeFiles/ray.dir/Code/shapes/quad.cpp.o: ../Code/triple.h
 
 CMakeFiles/ray.dir/Code/shapes/sphere.cpp.o: ../Code/hit.h

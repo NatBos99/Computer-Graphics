@@ -7,6 +7,7 @@
 
 #include <cmath>
 #include <limits>
+#include <iostream>
 
 using namespace std;
 
@@ -60,7 +61,8 @@ Color Scene::trace(Ray const &ray)
 				Vector L = lights[i]->position - hit;
 				L.normalize();
 				Vector R = 2 * N.dot(L) * N - L;
-				diffuse = max(N.dot(L), 0.0) * material.color * lights[i]->color * material.kd;
+                R.normalize();
+				diffuse = max(L.dot(N), 0.0) * material.color * lights[i]->color * material.kd;
 				specular = pow(max(R.dot(V), 0.0), material.n) * lights[i]->color * material.ks;
 				color += diffuse + specular;
 		}

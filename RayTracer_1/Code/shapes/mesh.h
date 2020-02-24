@@ -17,6 +17,9 @@ class Mesh: public Object
              Vector const &scale);
 
         virtual Hit intersect(Ray const &ray);
+		
+		Vector rotate(Vector v, Vector r);
+
 };
 
 #endif
