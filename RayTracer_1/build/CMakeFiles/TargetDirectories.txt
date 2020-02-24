@@ -1,3 +1,3 @@
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_1/build/CMakeFiles/edit_cache.dir
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_1/build/CMakeFiles/rebuild_cache.dir
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_1/build/CMakeFiles/ray.dir
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_1/build/CMakeFiles/edit_cache.dir
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_1/build/CMakeFiles/rebuild_cache.dir
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_1/build/CMakeFiles/ray.dir
