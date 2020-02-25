@@ -1,6 +1,7 @@
 #include "sphere.h"
 
 #include <cmath>
+#include <iostream>
 
 using namespace std;
 
@@ -22,18 +23,6 @@ Hit Sphere::intersect(Ray const &ray)
     * intersection point from the ray origin in *t (see example).
     ****************************************************/
 
-    Vector OC = position - ray.O;
-    if (OC.dot(ray.D) <= 0) {
-				return Hit::NO_HIT();
-    }
-    Vector perp = OC.dot(ray.D) * ray.D;
-    Vector Cperp = perp - OC;
-    if (Cperp.length() > r) {
-        return Hit::NO_HIT();
-    }
-    double cplen = Cperp.length();
-    double t = perp.length() - tan(acos(cplen/r))*cplen;
-
     /****************************************************
     * RT1.2: NORMAL CALCULATION
     *
@@ -42,11 +31,38 @@ Hit Sphere::intersect(Ray const &ray)
     *
     * Insert calculation of the sphere's normal at the intersection point.
     ****************************************************/
+    
+		Vector OC = ray.O - position;
+		double a = ray.D.dot(ray.D);
+		double b = 2.0 * OC.dot(ray.D);
+		double c = OC.dot(OC) - r*r;
+		double d = b*b - 4*a*c;
+		
+		bool inSphere = abs(OC.length()) < r;
+		
+		if(d < 0.0) {
+			return Hit::NO_HIT();
+		} else {
+			double numerator = -b - sqrt(d);
+			if (numerator > 0.0) {
+				double t = numerator / (2.0 * a);
+				Vector N = t*ray.D + OC;
+				N.normalize();
+				if (inSphere) N = -N;
+				return Hit(t, N);
+			}
 
-    Vector N = t*ray.D - OC;
-    N.normalize();
-
-    return Hit(t, N);
+			numerator = -b + sqrt(d);
+			if (numerator > 0.0) {
+				double t = numerator / (2.0 * a);
+				Vector N = t*ray.D + OC;
+				N.normalize();
+				if (inSphere) N = -N;
+				return Hit(t, N);
+			} else {
+				return Hit::NO_HIT();
+			}
+		}
 }
 
 Sphere::Sphere(Point const &pos, double radius)
