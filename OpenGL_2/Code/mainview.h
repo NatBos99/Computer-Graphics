@@ -57,6 +57,7 @@ private:
     QOpenGLShaderProgram shaderProgram;
     GLint uniformModelViewTransform;
     GLint uniformProjectionTransform;
+    GLint uniformNormalTransform;
 
     // Mesh values
     GLuint meshVAO;
@@ -69,6 +70,8 @@ private:
     QVector3D rotation;
     QMatrix4x4 projectionTransform;
 
+    QMatrix3x3 normalTransform;
+
     void createShaderProgram();
     void loadMesh();
 
@@ -76,6 +79,8 @@ private:
 
     void updateProjectionTransform();
     void updateModelTransforms();
+    void updateNormalTransform();
+    QVector<quint8> imageToBytes(QImage image);
 };
 
 #endif // MAINVIEW_H

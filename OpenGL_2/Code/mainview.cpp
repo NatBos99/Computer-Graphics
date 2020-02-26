@@ -76,6 +76,7 @@ void MainView::initializeGL() {
     // Initialize transformations
     updateProjectionTransform();
     updateModelTransforms();
+    updateNormalTransform();
 }
 
 void MainView::createShaderProgram() {
@@ -89,14 +90,18 @@ void MainView::createShaderProgram() {
     // Get the uniforms
     uniformModelViewTransform = shaderProgram.uniformLocation("modelViewTransform");
     uniformProjectionTransform = shaderProgram.uniformLocation("projectionTransform");
+    uniformNormalTransform = shaderProgram.uniformLocation("normalTransform");
 }
 
 void MainView::loadMesh() {
     Model model(":/models/cube.obj");
     QVector<QVector3D> vertexCoords = model.getVertices();
+    QVector<QVector3D> normalCoords = model.getNormals();
 
     QVector<float> meshData;
-    meshData.reserve(2 * 3 * vertexCoords.size());
+    meshData.reserve(3 * 3 * vertexCoords.size());
+
+    int i = 0;
 
     for (auto coord : vertexCoords)
     {
@@ -106,6 +111,10 @@ void MainView::loadMesh() {
         meshData.append(static_cast<float>(rand()) / RAND_MAX);
         meshData.append(static_cast<float>(rand()) / RAND_MAX);
         meshData.append(static_cast<float>(rand()) / RAND_MAX);
+        meshData.append(normalCoords[i].x());
+        meshData.append(normalCoords[i].y());
+        meshData.append(normalCoords[i].z());
+        i++;
     }
 
     meshSize = vertexCoords.size();
@@ -122,12 +131,16 @@ void MainView::loadMesh() {
     glBufferData(GL_ARRAY_BUFFER, meshData.size() * sizeof(float), meshData.data(), GL_STATIC_DRAW);
 
     // Set vertex coordinates to location 0
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), 0);
     glEnableVertexAttribArray(0);
 
     // Set colour coordinates to location 1
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+
+    // Set normal coordinates to location 2
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), reinterpret_cast<void*>(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -151,6 +164,7 @@ void MainView::paintGL() {
     // Set the projection matrix
     glUniformMatrix4fv(uniformProjectionTransform, 1, GL_FALSE, projectionTransform.data());
     glUniformMatrix4fv(uniformModelViewTransform, 1, GL_FALSE, meshTransform.data());
+    glUniformMatrix3fv(uniformNormalTransform, 1, GL_FALSE, normalTransform.data());
 
     glBindVertexArray(meshVAO);
     glDrawArrays(GL_TRIANGLES, 0, meshSize);
@@ -184,7 +198,13 @@ void MainView::updateModelTransforms() {
     meshTransform.scale(scale);
     meshTransform.rotate(QQuaternion::fromEulerAngles(rotation));
 
+    updateNormalTransform();
+
     update();
+}
+
+void MainView::updateNormalTransform() {
+    normalTransform = meshTransform.normalMatrix();
 }
 
 // --- OpenGL cleanup helpers
