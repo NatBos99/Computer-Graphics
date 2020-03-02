@@ -7,6 +7,7 @@
 layout (location = 0) in vec3 vertCoordinates_in;
 layout (location = 1) in vec3 vertColor_in;
 layout (location = 2) in vec3 normCoordinates_in;
+layout (location = 3) in vec2 texCoordinates_in;
 
 // Specify the Uniforms of the vertex shader
 uniform mat4 modelViewTransform;
@@ -20,5 +21,5 @@ void main()
 {
     // gl_Position is the output (a vec4) of the vertex shader
     gl_Position = projectionTransform * modelViewTransform * vec4(vertCoordinates_in, 1.0);
-    normColor = normalTransform * normCoordinates_in;
+    normColor = normalize(normalTransform * normCoordinates_in);
 }

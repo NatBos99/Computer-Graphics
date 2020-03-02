@@ -56,7 +56,17 @@ Model::Model(QString filename) {
  *
  */
 void Model::unitize() {
-    qDebug() << "TODO: implement this yourself";
+    float max = 0.0, cur;
+    for (QVector3D v : vertices){
+        cur = v.x()*v.x() + v.y()*v.y() + v.z()*v.z();
+        max = max > cur ? max : cur;
+    }
+    max = sqrt(max);
+    for (int i = vertices.size() - 1; i >= 0; --i) {
+        vertices[i].setX(vertices[i].x() / max);
+        vertices[i].setY(vertices[i].y() / max);
+        vertices[i].setZ(vertices[i].z() / max);
+    }
 }
 
 QVector<QVector3D> Model::getVertices() {

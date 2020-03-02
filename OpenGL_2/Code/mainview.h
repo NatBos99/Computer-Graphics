@@ -54,15 +54,26 @@ private:
     QOpenGLDebugLogger debugLogger;
     QTimer timer; // timer used for animation
 
-    QOpenGLShaderProgram shaderProgram;
+    QOpenGLShaderProgram *shaderProgram;
+    QOpenGLShaderProgram shaderProgramNormal;
+    QOpenGLShaderProgram shaderProgramPhong;
+    QOpenGLShaderProgram shaderProgramGouraud;
     GLint uniformModelViewTransform;
     GLint uniformProjectionTransform;
     GLint uniformNormalTransform;
+    GLint uniformLightPosition;
+    GLint uniformLightColor;
+    GLint uniformLightIntensity;
+    GLint uniformMaterial;
+    GLint uniformSampler;
+
+    int shadingMode;
 
     // Mesh values
     GLuint meshVAO;
     GLuint meshVBO;
     GLuint meshSize;
+    GLuint texture;
     QMatrix4x4 meshTransform;
 
     // Transforms
@@ -72,8 +83,18 @@ private:
 
     QMatrix3x3 normalTransform;
 
-    void createShaderProgram();
+    // Light and Material
+    QVector3D light;
+    QVector3D lightColor;
+    QVector3D lightIntensity;
+    QVector3D material;
+
+    void createNormalShaderProgram();
+    void createPhongShaderProgram();
+    void createGouraudShaderProgram();
+    void setUniforms();
     void loadMesh();
+    void loadTexture(QString file);
 
     void destroyModelBuffers();
 
