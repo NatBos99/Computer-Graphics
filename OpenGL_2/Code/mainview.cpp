@@ -227,8 +227,14 @@ void MainView::setScale(int newScale) {
 }
 
 void MainView::setShadingMode(ShadingMode shading) {
-    qDebug() << "Changed shading to" << shading;
-    Q_UNIMPLEMENTED();
+    switch (shading) {
+        case PHONG:
+
+            break;
+        case NORMAL:
+            break;
+        default: // Gouraud
+    }
 }
 
 // --- Private helpers
