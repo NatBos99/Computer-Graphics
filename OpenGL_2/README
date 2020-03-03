@@ -1,6 +1,6 @@
 Nathan Bosch (s3475344) and Winward Fang (s3205843)
 
-We both took the course last year, but implemented things from scratch. We also added several additional features (listed at the end of the readme).
+We both took the course last year, but implemented things from scratch.
 
 Uses Qt 5.5.1. Was built on linux on the school computers.
 If the default kit is not 5.5.1, go to projects, manage kits, select Desktop (under Manual) and change the Qt version to 5.5.1. Apply and click OK.
@@ -9,6 +9,15 @@ FILES CHANGED: mainview.h, mainview.cpp,
 FILES ADDED: vertshader_normal.glsl, vertshader_phong.glsl, vertshader_gouraud.glsl, fragshader_normal.glsl, fragshader_phong.glsl, fragshader_gouraud.glsl
 
 Assignment changes:
-1. Normal Shader (1 point)
+1. 
+Normal Shader (1 point)
  - We implemented the normal shader by loading in the normals from the model and drawing this as the color in the shaders
-2. Selecting Shaders (0.5 point)
+Selecting Shaders (0.5 point)
+ - We used separate shader programs to achieve the desired effect, assigning a shader program pointer to the selected shader program
+Gouraud Shader (1 point)
+ - Implemented in the vertshader_gouraud.glsl
+Phong Shader (1.5 point)
+ - Implemented in the fragshader_phong.glsl
+2.
+Texture Mapping (4 points)
+ - We followed the steps in the assignment. We use mipmapping and bind our textures through glUniform1i.
