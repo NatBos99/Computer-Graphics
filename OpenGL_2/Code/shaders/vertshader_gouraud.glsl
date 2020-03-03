@@ -39,5 +39,6 @@ void main()
     vertColor = (material.x * lightIntensity.x) +
                 (material.y * lightIntensity.y * max(0, dot(N, L)) * lightColor) +
                 (material.z * lightIntensity.z * pow(max(0, dot(R, V)), p) * lightColor);
+
     texCoordinates = texCoordinates_in;
 }

@@ -37,8 +37,9 @@ void main()
 
     int p = 5;
 
-    fColor = textureColor *
-             vec4((material.x * lightIntensity.x) +
+    fColor = vec4((material.x * lightIntensity.x) +
                   (material.y * lightIntensity.y * max(0, dot(N, L)) * lightColor) +
                   (material.z * lightIntensity.z * pow(max(0, dot(R, V)), p) * lightColor), 1.0);
+
+    fColor = textureColor * fColor;
 }

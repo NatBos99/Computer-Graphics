@@ -71,6 +71,7 @@ void MainView::initializeGL() {
     // Set the color to be used by glClear. This is, effectively, the background color.
     glClearColor(0.2f, 0.5f, 0.7f, 0.0f);
 
+    // Set the lights, light color, material, and light intensity
     light.setX(-10);
     light.setY(10);
     light.setZ(0);
@@ -135,7 +136,7 @@ void MainView::setUniforms() {
 
 void MainView::loadMesh() {
     Model model(":/models/cat.obj");
-    model.unitize();
+
     QVector<QVector3D> vertexCoords = model.getVertices();
     QVector<QVector3D> normalCoords = model.getNormals();
     QVector<QVector2D> texCoords = model.getTextureCoords();
@@ -143,13 +144,17 @@ void MainView::loadMesh() {
     QVector<float> meshData;
     meshData.reserve((3 * 3 + 2) * vertexCoords.size());
 
+    // Implemented as an easy way to load in objects in the right place
+    int baseScale = 10;
+    QVector3D baseTranslation(0,-3,0);
+
     int i = 0;
 
     for (auto coord : vertexCoords)
     {
-        meshData.append(coord.x()*10);
-        meshData.append((coord.y()*10)-3);
-        meshData.append(coord.z()*10);
+        meshData.append((coord.x()*baseScale)+baseTranslation.x());
+        meshData.append((coord.y()*baseScale)+baseTranslation.y());
+        meshData.append((coord.z()*baseScale)+baseTranslation.z());
         meshData.append(static_cast<float>(rand()) / RAND_MAX);
         meshData.append(static_cast<float>(rand()) / RAND_MAX);
         meshData.append(static_cast<float>(rand()) / RAND_MAX);
