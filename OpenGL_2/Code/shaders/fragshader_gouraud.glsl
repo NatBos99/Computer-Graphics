@@ -19,5 +19,5 @@ out vec4 fColor;
 void main()
 {
     vec4 textureColor = texture2D(tex, texCoordinates);
-    fColor = normalize(textureColor * vec4(vertColor, 1.0));
+    fColor = textureColor * vec4(vertColor, 1.0);
 }

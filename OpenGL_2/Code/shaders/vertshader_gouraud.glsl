@@ -24,21 +24,23 @@ out vec2 texCoordinates;
 
 void main()
 {
+    vec4 vertCoordinates = modelViewTransform*vec4(vertCoordinates_in, 1.0);
+
     // gl_Position is the output (a vec4) of the vertex shader
-    gl_Position = projectionTransform * modelViewTransform * vec4(vertCoordinates_in, 1.0);
+    gl_Position = projectionTransform * vertCoordinates;
 
     vec3 N, L, R, V;
-    N = normalTransform * normCoordinates_in;
-    vec4 temp = modelViewTransform*vec4(vertCoordinates_in, 1.0);
-    L = normalize(light - temp.xyz);
+    N = normalize(normalTransform * normCoordinates_in);
+
+    L = normalize(light - vertCoordinates.xyz);
     R = -reflect(L, N);
-    V = normalize(-temp.xyz);
+    V = normalize(-vertCoordinates.xyz);
 
-    int p = 5;
+    int p = 2;
 
-    vertColor = (material.x * lightIntensity.x) +
-                (material.y * lightIntensity.y * max(0, dot(N, L)) * lightColor) +
-                (material.z * lightIntensity.z * pow(max(0, dot(R, V)), p) * lightColor);
+    vertColor = material.x * lightIntensity.x * lightColor
+                + material.y * lightIntensity.y * max(0, dot(N, L)) * lightColor
+                + material.z * lightIntensity.z * pow(max(0, dot(R, V)), p) * lightColor;
 
     texCoordinates = texCoordinates_in;
 }

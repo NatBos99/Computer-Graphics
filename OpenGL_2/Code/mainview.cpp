@@ -79,8 +79,8 @@ void MainView::initializeGL() {
     lightColor.setY(1);
     lightColor.setZ(1);
     material.setX(0.2);
-    material.setY(0.9);
-    material.setZ(0.9);
+    material.setY(0.8);
+    material.setZ(0.6);
     lightIntensity.setX(1);
     lightIntensity.setY(1);
     lightIntensity.setZ(1);

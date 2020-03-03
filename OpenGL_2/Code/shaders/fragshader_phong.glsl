@@ -29,17 +29,18 @@ void main()
 {
     vec4 textureColor = texture2D(tex, texCoordinates);
     vec3 N, L, R, V;
-    N = normalTransform * vertNormal;
+    N = normalize(normalTransform * vertNormal);
     vec4 temp = modelViewTransform*vec4(vertCoordinates, 1.0);
     L = normalize(light - temp.xyz);
     R = -reflect(L, N);
     V = normalize(-temp.xyz);
 
-    int p = 5;
+    int p = 2;
 
-    fColor = vec4((material.x * lightIntensity.x) +
-                  (material.y * lightIntensity.y * max(0, dot(N, L)) * lightColor) +
-                  (material.z * lightIntensity.z * pow(max(0, dot(R, V)), p) * lightColor), 1.0);
+    fColor = vec4(material.x * lightIntensity.x * lightColor
+                  + material.y * lightIntensity.y * max(0, dot(N, L)) * lightColor
+                  + material.z * lightIntensity.z * pow(max(0, dot(R, V)), p) * lightColor,
+                  1.0);
 
     fColor = textureColor * fColor;
 }
