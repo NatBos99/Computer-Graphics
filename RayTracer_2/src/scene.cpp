@@ -60,10 +60,18 @@ Color Scene::trace(Ray const &ray, unsigned depth)
     Color color = material.ka * matColor;
 
     // Add diffuse and specular components.
-    for (auto const &light : lights)
-    {
+    for (auto const &light : lights) {
         Vector L = (light->position - hit).normalized();
 
+        if (renderShadows) {
+
+            Ray shadowRay(hit + epsilon * shadingN, (light->position - (hit + epsilon * shadingN)).normalized());
+            pair<ObjectPtr, Hit> shadowHit = castRay(shadowRay);
+            if (shadowHit.second.t < (light->position - (hit + epsilon * shadingN)).length()) {
+                continue;
+            }
+        }
+        
         // Add diffuse.
         double diffuse = std::max(shadingN.dot(L), 0.0);
         color += diffuse * material.kd * light->color * matColor;
@@ -80,10 +88,31 @@ Color Scene::trace(Ray const &ray, unsigned depth)
     {
         // The object is transparent, and thus refracts and reflects light.
         // Use Schlick's approximation to determine the ratio between the two.
+        Ray reflectRay(hit + epsilon * shadingN, reflect(ray.D, shadingN));
+
+        double ni = 1.0;
+        double nt = material.nt;
+
+        double k = 1.0 - ni*ni*(1.0 - pow(ray.D.dot(shadingN), 2)) / (nt*nt);
+
+        Vector T(0, 0, 0);
+        if (k >= 0.0) {
+            T = ni * (ray.D - ray.D.dot(shadingN) * shadingN) / nt;
+            T -= shadingN * sqrt(k);
+        }
+
+        double kr0 = pow( (ni-nt)/(ni+nt), 2 );
+        double kr = kr0 + (1.0 - kr0) * pow((1.0 - (-ray.D).dot(shadingN)), 5);
+        double kt = 1.0 - kr;
+
+        Ray refractRay(hit + epsilon * shadingN, T.normalized());
+
+        color += kr * trace(reflectRay, depth-1) + kt * trace(refractRay, depth-1);
     }
     else if (depth > 0 and material.ks > 0.0)
     {
-        // The object is not transparent, but opaque.
+        Ray reflectRay(hit + epsilon * shadingN, reflect(ray.D, shadingN));
+        color += material.ks * trace(reflectRay, depth-1);
     }
 
     return color;
