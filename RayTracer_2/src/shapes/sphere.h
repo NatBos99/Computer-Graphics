@@ -13,6 +13,7 @@ class Sphere: public Object
 
         Hit intersect(Ray const &ray) override;
         Vector toUV(Point const &hit) override;
+	Vector rotate(Vector v, Vector r); 
 
         Point const position;
         double const r;

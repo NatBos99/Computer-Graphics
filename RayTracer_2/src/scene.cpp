@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <iostream>
 
 using namespace std;
 
@@ -29,7 +30,7 @@ pair<ObjectPtr, Hit> Scene::castRay(Ray const &ray) const
     return pair<ObjectPtr, Hit>(obj, min_hit);
 }
 
-Color Scene::trace(Ray const &ray, unsigned depth)
+Color Scene::trace(Ray const &ray, unsigned depth, bool inside)
 {
     pair<ObjectPtr, Hit> mainhit = castRay(ray);
     ObjectPtr obj = mainhit.first;
@@ -53,9 +54,17 @@ Color Scene::trace(Ray const &ray, unsigned depth)
         shadingN = N;
     else
         shadingN = -N;
+	
+	Color matColor;
 
-    Color matColor = material.color;
-
+	if (material.hasTexture) {
+		Vector temp = obj->toUV(hit);
+		float u = temp.x;
+		float v = temp.y;
+		matColor = material.texture.colorAt(u, 1.0 - v);
+	} else {
+	    matColor = material.color;
+	}
     // Add ambient once, regardless of the number of lights.
     Color color = material.ka * matColor;
 
@@ -84,39 +93,62 @@ Color Scene::trace(Ray const &ray, unsigned depth)
         color += specular * material.ks * light->color;
     }
 
-    if (depth > 0 and material.isTransparent)
+    if (depth > 0 && material.isTransparent)
     {
         // The object is transparent, and thus refracts and reflects light.
         // Use Schlick's approximation to determine the ratio between the two.
         Ray reflectRay(hit + epsilon * shadingN, reflect(ray.D, shadingN));
+		
+		double ni, nt;
 
-        double ni = 1.0;
-        double nt = material.nt;
+		if (not inside) {
+			ni = 1.0;
+        	nt = material.nt;
+		} else {
+			ni = material.nt;
+        	nt = 1.0;
+		}
 
-        double k = 1.0 - ni*ni*(1.0 - pow(ray.D.dot(shadingN), 2)) / (nt*nt);
+        double k = 1.0 - ni*ni*(1.0 - pow((ray.D).dot(shadingN), 2)) / (nt*nt);
 
         Vector T(0, 0, 0);
         if (k >= 0.0) {
-            T = ni * (ray.D - ray.D.dot(shadingN) * shadingN) / nt;
+            T = ni * (ray.D - (ray.D).dot(shadingN) * shadingN) / nt;
             T -= shadingN * sqrt(k);
         }
 
-        double kr0 = pow( (ni-nt)/(ni+nt), 2 );
-        double kr = kr0 + (1.0 - kr0) * pow((1.0 - (-ray.D).dot(shadingN)), 5);
+        double kr0 = pow((ni-nt)/(ni+nt), 2);
+        double kr = kr0 + (1.0 - kr0) * pow((1.0 - ((-ray.D).dot(shadingN))), 5);
         double kt = 1.0 - kr;
 
-        Ray refractRay(hit + epsilon * shadingN, T.normalized());
+        Ray refractRay(hit - epsilon * shadingN, T.normalized());
 
-        color += kr * trace(reflectRay, depth-1) + kt * trace(refractRay, depth-1);
+    	color += kr * trace(reflectRay, depth-1, inside) + kt * trace(refractRay, depth-1, not inside);
     }
-    else if (depth > 0 and material.ks > 0.0)
+    else if (depth > 0 && material.ks > 0.0)
     {
         Ray reflectRay(hit + epsilon * shadingN, reflect(ray.D, shadingN));
-        color += material.ks * trace(reflectRay, depth-1);
+        color += material.ks * trace(reflectRay, depth-1, inside);
     }
 
     return color;
 }
+
+Color Scene::supersample(double x, double y, bool inside, double shift, unsigned ssr) {
+	Color col;
+    if (ssr != 1) {
+        col = supersample(x - shift, y + shift, inside, shift/2.0, ssr-1);
+        col += supersample(x + shift, y + shift, inside, shift/2.0, ssr-1);
+        col += supersample(x + shift, y - shift, inside, shift/2.0, ssr-1);
+        col += supersample(x - shift, y - shift, inside, shift/2.0, ssr-1);
+        col /= 4; 
+    } else { // ssr == 1
+        Point pixel(x, y, 0);
+		Ray ray(eye, (pixel - eye).normalized());
+        col = trace(ray, recursionDepth, inside);
+    }
+    return col;
+} 
 
 void Scene::render(Image &img)
 {
@@ -126,9 +158,7 @@ void Scene::render(Image &img)
     for (unsigned y = 0; y < h; ++y)
         for (unsigned x = 0; x < w; ++x)
         {
-            Point pixel(x + 0.5, h - 1 - y + 0.5, 0);
-            Ray ray(eye, (pixel - eye).normalized());
-            Color col = trace(ray, recursionDepth);
+            Color col = supersample(x + 0.5, h - 1 - y + 0.5, false, 0.25, supersamplingFactor);
             col.clamp();
             img(x, y) = col;
         }

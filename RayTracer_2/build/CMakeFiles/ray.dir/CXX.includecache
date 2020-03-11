@@ -6,31 +6,31 @@
 
 #IncludeRegexTransform: 
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/hit.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/hit.h
 triple.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/triple.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/triple.h
 limits
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/image.cpp
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/image.cpp
 image.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/image.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/image.h
 lode/lodepng.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/lode/lodepng.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/lode/lodepng.h
 iostream
 -
 fstream
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/image.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/image.h
 triple.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/triple.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/triple.h
 string
 -
 vector
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/json/json.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/json/json.h
 algorithm
 -
 cassert
@@ -294,7 +294,7 @@ utility
 utility
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/json/json_fwd.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/json/json_fwd.h
 cstdint
 -
 map
@@ -306,15 +306,15 @@ string
 vector
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/light.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/light.h
 triple.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/triple.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/triple.h
 memory
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/lode/lodepng.cpp
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/lode/lodepng.cpp
 lodepng.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/lode/lodepng.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/lode/lodepng.h
 limits.h
 -
 stdio.h
@@ -322,7 +322,7 @@ stdio.h
 stdlib.h
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/lode/lodepng.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/lode/lodepng.h
 string.h
 -
 vector
@@ -330,41 +330,41 @@ vector
 string
 -
 lodepng.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/lode/lodepng.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/lode/lodepng.h
 iostream
 -
 lodepng.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/lode/lodepng.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/lode/lodepng.h
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/main.cpp
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/main.cpp
 raytracer.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/raytracer.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/raytracer.h
 iostream
 -
 string
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/material.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/material.h
 image.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/image.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/image.h
 triple.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/triple.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/triple.h
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/object.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/object.h
 material.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/material.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/material.h
 hit.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/hit.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/hit.h
 ray.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/ray.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/ray.h
 triple.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/triple.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/triple.h
 memory
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/objloader.cpp
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/objloader.cpp
 objloader.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/objloader.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/objloader.h
 fstream
 -
 iostream
@@ -372,35 +372,35 @@ iostream
 sstream
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/objloader.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/objloader.h
 vertex.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/vertex.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/vertex.h
 string
 -
 vector
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/ray.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/ray.h
 triple.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/triple.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/triple.h
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/raytracer.cpp
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/raytracer.cpp
 raytracer.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/raytracer.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/raytracer.h
 image.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/image.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/image.h
 light.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/light.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/light.h
 material.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/material.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/material.h
 triple.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/triple.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/triple.h
 shapes/quad.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/shapes/quad.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/shapes/quad.h
 shapes/sphere.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/shapes/sphere.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/shapes/sphere.h
 json/json.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/json/json.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/json/json.h
 exception
 -
 fstream
@@ -408,83 +408,85 @@ fstream
 iostream
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/raytracer.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/raytracer.h
 scene.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/scene.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/scene.h
 string
 -
 json/json_fwd.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/json/json_fwd.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/json/json_fwd.h
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/scene.cpp
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/scene.cpp
 scene.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/scene.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/scene.h
 hit.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/hit.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/hit.h
 image.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/image.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/image.h
 material.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/material.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/material.h
 ray.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/ray.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/ray.h
 algorithm
 -
 cmath
 -
 limits
 -
+iostream
+-
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/scene.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/scene.h
 light.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/light.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/light.h
 object.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/object.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/object.h
 triple.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/triple.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/triple.h
 vector
 -
 utility
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/shapes/quad.cpp
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/shapes/quad.cpp
 quad.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/shapes/quad.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/shapes/quad.h
 cmath
 -
 limits
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/shapes/quad.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/shapes/quad.h
 ../object.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/object.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/object.h
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/shapes/solvers.cpp
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/shapes/solvers.cpp
 solvers.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/shapes/solvers.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/shapes/solvers.h
 cmath
 -
 utility
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/shapes/solvers.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/shapes/solvers.h
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/shapes/sphere.cpp
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/shapes/sphere.cpp
 sphere.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/shapes/sphere.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/shapes/sphere.h
 solvers.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/shapes/solvers.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/shapes/solvers.h
 cmath
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/shapes/sphere.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/shapes/sphere.h
 ../object.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/object.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/object.h
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/triple.cpp
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/triple.cpp
 triple.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/triple.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/triple.h
 json/json.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/json/json.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/json/json.h
 cmath
 -
 exception
@@ -492,11 +494,11 @@ exception
 iostream
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/triple.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/triple.h
 json/json_fwd.h
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/json/json_fwd.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/json/json_fwd.h
 iosfwd
 -
 
-/home/s3205843/Programming/Computer Graphics/Computer-Graphics/RayTracer_2/src/vertex.h
+/home/s3475344/Desktop/cg/new/a1/Computer-Graphics/RayTracer_2/src/vertex.h
 

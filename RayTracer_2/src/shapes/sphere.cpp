@@ -38,11 +38,34 @@ Hit Sphere::intersect(Ray const &ray)
     return Hit(t0, N);
 }
 
+Vector Sphere::rotate(Vector v, Vector r) {
+    Vector newVec = v;
+	// Rotation around x axis
+    newVec.x = v.x;
+    newVec.y = v.y * cos(r.x) - v.z * sin(r.x);
+    newVec.z = v.y * sin(r.x) + v.z * cos(r.x);
+	// Rotation around y axis
+	v = newVec;
+	newVec.x = v.x * cos(r.y) + v.z * sin(r.y);
+	newVec.y = v.y;
+	newVec.z = - v.x * sin(r.y) + v.z * cos(r.y);
+	// Rotation around z axis
+	v = newVec;
+	newVec.x = v.x * cos(r.z) - v.y * sin(r.z);
+	newVec.y = v.x * sin(r.z) + v.y * cos(r.z);
+	newVec.z = v.z;
+	return newVec;
+}
+
 Vector Sphere::toUV(Point const &hit)
 {
     // placeholders
-    double u = 0.0;
-    double v = 0.0;
+	Point newHit = hit - position;
+	
+	newHit = rotate(newHit, (-(PI*angle)/180)*axis);
+
+    double u = 0.5 + atan2(newHit.y, newHit.x)/(2*PI);
+    double v = 1 - acos(newHit.z/r)/PI;
 
     // Use a Vector to return 2 doubles. The third value is never read.
     return Vector{u, v, 0.0};
