@@ -37,19 +37,19 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     GLint uniformTextureSamplerPhong;
 
     // Buffers
-    GLuint meshVAO;
-    GLuint meshVBO;
-    GLuint meshSize;
+    GLuint meshVAO[2];
+    GLuint meshVBO[2];
+    GLuint meshSize[2];
 
     // Texture
-    GLuint textureName;
+    GLuint textureName[2];
 
     // Transforms
     float scale = 1.0F;
     QVector3D rotation;
     QMatrix4x4 projectionTransform;
-    QMatrix3x3 meshNormalTransform;
-    QMatrix4x4 meshTransform;
+    QMatrix3x3 meshNormalTransform[2];
+    QMatrix4x4 meshTransform[2];
 
     // Phong model constants.
     QVector4D material = {0.5F, 0.5F, 0.5F, 5.0F};
@@ -91,7 +91,7 @@ private slots:
 
 private:
     void createShaderProgram();
-    void loadMesh();
+    void loadMesh(QString name, int i);
 
     // Loads texture data into the buffer with the name textureName.
     void loadTextures();

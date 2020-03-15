@@ -26,8 +26,9 @@ MainView::~MainView() {
     qDebug() << "MainView destructor";
 
     makeCurrent();
-
-    glDeleteTextures(1, &textureName);
+    for(int i=0; i<2; i++) {
+        glDeleteTextures(1, &textureName[i]);
+    }
 
     destroyModelBuffers();
 }
@@ -61,12 +62,16 @@ void MainView::initializeGL() {
     glClearColor(0.2F, 0.5F, 0.7F, 0.0F);
 
     createShaderProgram();
-    loadMesh();
+    loadMesh(":/models/cat.obj", 0);
+    loadMesh(":/models/sphere.obj", 1);
     loadTextures();
 
     // Initialize transformations.
     updateProjectionTransform();
     updateModelTransforms();
+
+    // Start timer
+    timer.start(1000.0 / 60.0);
 }
 
 void MainView::createShaderProgram() {
@@ -87,19 +92,19 @@ void MainView::createShaderProgram() {
     uniformTextureSamplerPhong      = phongShaderProgram.uniformLocation("textureSampler");
 }
 
-void MainView::loadMesh() {
-    Model model(":/models/cat.obj");
+void MainView::loadMesh(QString name, int i) {
+    Model model(name);
     QVector<float> meshData = model.getVNTInterleaved();
 
-    meshSize = model.getVertices().size();
+    meshSize[i] = model.getVertices().size();
 
     // Generate VAO
-    glGenVertexArrays(1, &meshVAO);
-    glBindVertexArray(meshVAO);
+    glGenVertexArrays(1, &meshVAO[i]);
+    glBindVertexArray(meshVAO[i]);
 
     // Generate VBO
-    glGenBuffers(1, &meshVBO);
-    glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+    glGenBuffers(1, &meshVBO[i]);
+    glBindBuffer(GL_ARRAY_BUFFER, meshVBO[i]);
 
     // Write the data to the buffer
     glBufferData(GL_ARRAY_BUFFER, meshData.size() * sizeof(GL_FLOAT), meshData.data(), GL_STATIC_DRAW);
@@ -121,8 +126,11 @@ void MainView::loadMesh() {
 }
 
 void MainView::loadTextures() {
-    glGenTextures(1, &textureName);
-    loadTexture(":/textures/cat_diff.png", textureName);
+    glGenTextures(1, &textureName[0]);
+    loadTexture(":/textures/cat_diff.png", textureName[0]);
+
+    glGenTextures(1, &textureName[1]);
+    loadTexture(":/textures/rug_logo.png", textureName[1]);
 }
 
 void MainView::loadTexture(QString file, GLuint textureName) {
@@ -169,12 +177,13 @@ void MainView::paintGL() {
     }
 
     // Set the texture and draw the mesh.
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, textureName);
+    for(int i=0; i<2; i++) {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureName[i]);
 
-    glBindVertexArray(meshVAO);
-    glDrawArrays(GL_TRIANGLES, 0, meshSize);
-
+        glBindVertexArray(meshVAO[i]);
+        glDrawArrays(GL_TRIANGLES, 0, meshSize[i]);
+    }
     phongShaderProgram.release();
 }
 
@@ -193,10 +202,14 @@ void MainView::resizeGL(int newWidth, int newHeight) {
 }
 
 void MainView::updatePhongUniforms() {
-    glUniformMatrix4fv(uniformProjectionTransformPhong, 1, GL_FALSE, projectionTransform.data());
-    glUniformMatrix4fv(uniformModelViewTransformPhong, 1, GL_FALSE, meshTransform.data());
-    glUniformMatrix3fv(uniformNormalTransformPhong, 1, GL_FALSE, meshNormalTransform.data());
+    for(int i=0; i<2; i++) {
+        meshTransform[i].rotate(1.0, {0.0F, 0.0F, 1.0F});
+        meshNormalTransform[i] = meshTransform[i].normalMatrix();
 
+        glUniformMatrix4fv(uniformProjectionTransformPhong, 1, GL_FALSE, projectionTransform.data());
+        glUniformMatrix4fv(uniformModelViewTransformPhong, 1, GL_FALSE, meshTransform[i].data());
+        glUniformMatrix3fv(uniformNormalTransformPhong, 1, GL_FALSE, meshNormalTransform[i].data());
+    }
     glUniform4fv(uniformMaterialPhong, 1, &material[0]);
     glUniform3fv(uniformLightPositionPhong, 1, &lightPosition[0]);
     glUniform3f(uniformLightColorPhong, lightColor.x(), lightColor.y(), lightColor.z());
@@ -211,25 +224,36 @@ void MainView::updateProjectionTransform() {
 }
 
 void MainView::updateModelTransforms() {
-    meshTransform.setToIdentity();
-    meshTransform.translate(0.0F, -1.0F, -4.0F);
+    for(int i=0; i<2; i++) {
+        meshTransform[i].setToIdentity();
 
-    meshTransform.rotate(rotation.x(), {1.0F, 0.0F, 0.0F});
-    meshTransform.rotate(rotation.y(), {0.0F, 1.0F, 0.0F});
-    meshTransform.rotate(rotation.z(), {0.0F, 0.0F, 1.0F});
+        switch (i) {
+            case 0:
+                meshTransform[i].translate(-2.0F, -1.0F, -4.0F);
+                break;
+            case 1:
+                meshTransform[i].translate(2.0F, -1.0F, -4.0F);
+            default:;
+        }
 
-    meshTransform.scale(scale);
+        meshTransform[i].rotate(rotation.x(), {1.0F, 0.0F, 0.0F});
+        meshTransform[i].rotate(rotation.y(), {0.0F, 1.0F, 0.0F});
+        meshTransform[i].rotate(rotation.z(), {0.0F, 0.0F, 1.0F});
 
-    meshNormalTransform = meshTransform.normalMatrix();
+        meshTransform[i].scale(scale);
 
+        meshNormalTransform[i] = meshTransform[i].normalMatrix();
+    }
     update();
 }
 
 // --- OpenGL cleanup helpers
 
 void MainView::destroyModelBuffers() {
-    glDeleteBuffers(1, &meshVBO);
-    glDeleteVertexArrays(1, &meshVAO);
+    for(int i=0; i<2; i++) {
+        glDeleteBuffers(1, &meshVBO[i]);
+        glDeleteVertexArrays(1, &meshVAO[i]);
+    }
 }
 
 // --- Public interface

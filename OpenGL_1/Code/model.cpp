@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QTextStream>
+#include <math.h>
 
 Model::Model(QString filename) {
     hNorms = false;
