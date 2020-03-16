@@ -225,13 +225,12 @@ void MainView::resizeGL(int newWidth, int newHeight) {
 void MainView::updatePhongUniforms(int i) {
     meshTransform[i].rotate(angle[i], objectAxes[i]);
 
-    switch(i) {
-        case 2:
-            //meshTransform[i].translate(-2.0F, -1.0F, -4.0F);
-            break;
-        case 3:
-            break;
-    }
+    time++;
+
+    meshTransform[2].translate(-((int) (time % 100 - 50))/5000.0, 0.0, 0.0F);
+    meshTransform[3].translate(cos(2*time*PI / 1000.0)/100.0, sin(2*time*PI / 1000.0)/100.0, 0.0F);
+
+    if (time == 1000) time = 0;
 
     meshNormalTransform[i] = meshTransform[i].normalMatrix();
 
@@ -252,10 +251,6 @@ void MainView::updateProjectionTransform() {
 }
 
 void MainView::initializeModelTransforms() {
-    meshTransform[0].setToIdentity();
-    meshTransform[1].setToIdentity();
-    meshTransform[2].setToIdentity();
-    meshTransform[3].setToIdentity();
     meshTransform[0].translate(-2.0F, -1.0F, -4.0F);
     meshTransform[1].translate(2.0F, -1.0F, -4.0F);
     meshTransform[2].translate(-2.0F, 1.0F, -4.0F);

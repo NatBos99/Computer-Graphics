@@ -17,6 +17,8 @@
 
 #include <memory>
 
+const double PI = 3.14159265359;
+
 class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     Q_OBJECT
 
@@ -47,6 +49,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     // Transforms
     float scale = 1.0F;
     float currentScale = 1.0F;
+    int time = 0;
     QVector3D rotation;
     QVector3D currentRotation = {0.0F, 0.0F, 0.0F};
     QVector3D objectAxes[4];
