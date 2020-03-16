@@ -8,5 +8,5 @@ out vec4 fColor;
 
 void main()
 {
-    fColor = vec4(vertNormal, 1.0F);
+    fColor = vec4(0.5*vertNormal + 0.5, 1.0F);
 }
