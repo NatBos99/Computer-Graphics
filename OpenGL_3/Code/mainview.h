@@ -46,11 +46,11 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
 
     // Transforms
     float scale = 1.0F;
+    float currentScale = 1.0F;
     QVector3D rotation;
     QVector3D currentRotation = {0.0F, 0.0F, 0.0F};
     QVector3D objectAxes[4];
     float angle[4];
-    float angleCount[4] = {0.0F, 0.0F, 0.0F, 0.0F};
     QMatrix4x4 projectionTransform;
     QMatrix3x3 meshNormalTransform[4];
     QMatrix4x4 meshTransform[4];
@@ -104,6 +104,7 @@ private:
     void destroyModelBuffers();
 
     void updateProjectionTransform();
+    void initializeModelTransforms();
     void updateModelTransforms();
 
     void updatePhongUniforms(int i);

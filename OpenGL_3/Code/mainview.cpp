@@ -81,7 +81,8 @@ void MainView::initializeGL() {
 
     // Initialize transformations.
     updateProjectionTransform();
-    updateModelTransforms();
+    initializeModelTransforms();
+    //updateModelTransforms();
 
     // Start timer
     timer.start(1000.0 / 60.0);
@@ -223,7 +224,15 @@ void MainView::resizeGL(int newWidth, int newHeight) {
 
 void MainView::updatePhongUniforms(int i) {
     meshTransform[i].rotate(angle[i], objectAxes[i]);
-    angleCount[i] += 1;
+
+    switch(i) {
+        case 2:
+            //meshTransform[i].translate(-2.0F, -1.0F, -4.0F);
+            break;
+        case 3:
+            break;
+    }
+
     meshNormalTransform[i] = meshTransform[i].normalMatrix();
 
     glUniformMatrix4fv(uniformProjectionTransformPhong, 1, GL_FALSE, projectionTransform.data());
@@ -242,40 +251,34 @@ void MainView::updateProjectionTransform() {
     projectionTransform.perspective(60.0F, aspectRatio, 0.2F, 20.0F);
 }
 
+void MainView::initializeModelTransforms() {
+    meshTransform[0].setToIdentity();
+    meshTransform[1].setToIdentity();
+    meshTransform[2].setToIdentity();
+    meshTransform[3].setToIdentity();
+    meshTransform[0].translate(-2.0F, -1.0F, -4.0F);
+    meshTransform[1].translate(2.0F, -1.0F, -4.0F);
+    meshTransform[2].translate(-2.0F, 1.0F, -4.0F);
+    meshTransform[3].translate(2.0F, 1.0F, -4.0F);
+    updateModelTransforms();
+}
+
 void MainView::updateModelTransforms() {
     for(int i=0; i<4; i++) {
-        meshTransform[i].setToIdentity();
+        QVector3D rotationVec = (rotation-currentRotation);
 
-        switch (i) {
-            case 0:
-                meshTransform[i].translate(-2.0F, -1.0F, -4.0F);
-                break;
-            case 1:
-                meshTransform[i].translate(2.0F, -1.0F, -4.0F);
-                break;
-            case 2:
-                meshTransform[i].translate(-2.0F, 1.0F, -4.0F);
-                break;
-            case 3:
-                meshTransform[i].translate(2.0F, 1.0F, -4.0F);
-                break;
-        }
+        meshTransform[i].rotate(rotationVec.x(), {1.0F, 0.0F, 0.0F});
+        meshTransform[i].rotate(rotationVec.y(), {0.0F, 1.0F, 0.0F});
+        meshTransform[i].rotate(rotationVec.z(), {0.0F, 0.0F, 1.0F});
 
-        QVector3D rotationVector = (rotation + currentRotation + angle[i]*angleCount[i]*objectAxes[i]);
-        angleCount[i] = 0;
-
-        meshTransform[i].rotate(rotationVector.x(), {1.0F, 0.0F, 0.0F});
-        meshTransform[i].rotate(rotationVector.y(), {0.0F, 1.0F, 0.0F});
-        meshTransform[i].rotate(rotationVector.z(), {0.0F, 0.0F, 1.0F});
-
-        currentRotation.setX(rotation.x());
-        currentRotation.setY(rotation.y());
-        currentRotation.setZ(rotation.z());
-
-        meshTransform[i].scale(scale);
+        meshTransform[i].scale((scale/currentScale));
 
         meshNormalTransform[i] = meshTransform[i].normalMatrix();
     }
+
+    currentScale = scale;
+    currentRotation = rotation;
+
     update();
 }
 
@@ -294,7 +297,6 @@ void MainView::setRotation(int rotateX, int rotateY, int rotateZ) {
     rotation = { static_cast<float>(rotateX),
                  static_cast<float>(rotateY),
                  static_cast<float>(rotateZ) };
-
     updateModelTransforms();
 }
 
