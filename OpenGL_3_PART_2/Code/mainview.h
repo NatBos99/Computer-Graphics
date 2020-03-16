@@ -17,6 +17,8 @@
 
 #include <memory>
 
+#define NWAVES 4
+
 class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     Q_OBJECT
 
@@ -25,16 +27,28 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
 
     QOpenGLShaderProgram phongShaderProgram;
 
+    // Time
+    GLint uniformTime;
+    GLfloat time;
+
+    // Waves
+    GLint uniformAmp;
+    GLint uniformFreq;
+    GLint uniformPhase;
+
+    GLfloat amp[NWAVES];
+    GLfloat freq[NWAVES];
+    GLfloat phase[NWAVES];
+
     // Uniforms for the Phong shader program.
     GLint uniformModelViewTransformPhong;
     GLint uniformProjectionTransformPhong;
     GLint uniformNormalTransformPhong;
 
     GLint uniformMaterialPhong;
+    GLint uniformMaterialColorPhong;
     GLint uniformLightPositionPhong;
     GLint uniformLightColorPhong;
-
-    GLint uniformTextureSamplerPhong;
 
     QOpenGLShaderProgram normalShaderProgram;
 
@@ -47,15 +61,10 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     GLint uniformLightPositionNormal;
     GLint uniformLightColorNormal;
 
-    GLint uniformTextureSamplerNormal;
-
     // Buffers
     GLuint meshVAO;
     GLuint meshVBO;
     GLuint meshSize;
-
-    // Texture
-    GLuint textureName;
 
     // Transforms
     float scale = 1.0F;
@@ -66,6 +75,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
 
     // Phong model constants.
     QVector4D material = {0.5F, 0.5F, 0.5F, 5.0F};
+    QVector3D materialColor = {0.137F, 0.537F, 0.855F}; // RGB Hex: #2389da
     QVector3D lightPosition = {0.0F, 100.0F, 0.0F};
     QVector3D lightColor = {1.0F, 1.0F, 1.0F};
 
@@ -105,10 +115,6 @@ private slots:
 private:
     void createShaderProgram();
     void loadMesh(QString name);
-
-    // Loads texture data into the buffer with the name textureName.
-    void loadTextures();
-    void loadTexture(QString file, GLuint texturePtr);
 
     void destroyModelBuffers();
 

@@ -11,7 +11,7 @@
         <file>models/sphere.obj</file>
         <file>shaders/vertshader_phong.glsl</file>
         <file>shaders/fragshader_phong.glsl</file>
-        <file>shaders/fragshader_new.glsl</file>
-        <file>shaders/vertshader_new.glsl</file>
+        <file>shaders/fragshader_normal.glsl</file>
+        <file>shaders/vertshader_normal.glsl</file>
     </qresource>
 </RCC>

@@ -27,7 +27,6 @@ MainView::~MainView() {
     qDebug() << "MainView destructor";
 
     makeCurrent();
-    glDeleteTextures(1, &textureName);
 
     destroyModelBuffers();
 }
@@ -58,11 +57,28 @@ void MainView::initializeGL() {
     glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);
     glDepthFunc(GL_LEQUAL);
-    glClearColor(0.2F, 0.5F, 0.7F, 0.0F);
+    glClearColor(0.1F, 0.1F, 0.1F, 0.0F);
 
     createShaderProgram();
     loadMesh(":/models/grid.obj");
-    loadTextures();
+
+    amp[0] = 0.03;
+    freq[0] = 3.9;
+    phase[0] = 0;
+
+    amp[1] = 0.08;
+    freq[1] = 1.3;
+    phase[1] = 1;
+
+    amp[2] = 0.02;
+    freq[2] = 3.1;
+    phase[2] = 2;
+
+    amp[3] = 0.01;
+    freq[3] = 7.2;
+    phase[3] = -1;
+
+    time = 0.0;
 
     // Initialize transformations.
     updateProjectionTransform();
@@ -85,15 +101,21 @@ void MainView::createShaderProgram() {
     uniformProjectionTransformPhong = phongShaderProgram.uniformLocation("projectionTransform");
     uniformNormalTransformPhong     = phongShaderProgram.uniformLocation("normalTransform");
     uniformMaterialPhong            = phongShaderProgram.uniformLocation("material");
+    uniformMaterialColorPhong       = phongShaderProgram.uniformLocation("materialColor");
     uniformLightPositionPhong       = phongShaderProgram.uniformLocation("lightPosition");
     uniformLightColorPhong          = phongShaderProgram.uniformLocation("lightColor");
-    uniformTextureSamplerPhong      = phongShaderProgram.uniformLocation("textureSampler");
+
+    uniformAmp   = phongShaderProgram.uniformLocation("amplitude");
+    uniformFreq  = phongShaderProgram.uniformLocation("frequency");
+    uniformPhase = phongShaderProgram.uniformLocation("amplitudephase");
+
+    uniformTime = phongShaderProgram.uniformLocation("time");
 
     // Create Normal shader program.
     normalShaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex,
-                                           ":/shaders/vertshader_new.glsl");
+                                           ":/shaders/vertshader_normal.glsl");
     normalShaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment,
-                                           ":/shaders/fragshader_new.glsl");
+                                           ":/shaders/fragshader_normal.glsl");
     normalShaderProgram.link();
 
     // Get the uniforms for the Normal shader program.
@@ -103,6 +125,12 @@ void MainView::createShaderProgram() {
     uniformMaterialNormal            = normalShaderProgram.uniformLocation("material");
     uniformLightPositionNormal       = normalShaderProgram.uniformLocation("lightPosition");
     uniformLightColorNormal          = normalShaderProgram.uniformLocation("lightColor");
+
+    uniformAmp   = normalShaderProgram.uniformLocation("amplitude");
+    uniformFreq  = normalShaderProgram.uniformLocation("frequency");
+    uniformPhase = normalShaderProgram.uniformLocation("amplitudephase");
+
+    uniformTime = normalShaderProgram.uniformLocation("time");
 }
 
 void MainView::loadMesh(QString name) {
@@ -139,28 +167,6 @@ void MainView::loadMesh(QString name) {
     glBindVertexArray(0);
 }
 
-void MainView::loadTextures() {
-    glGenTextures(1, &textureName);
-    loadTexture(":/textures/rug_logo.png", textureName);
-}
-
-void MainView::loadTexture(QString file, GLuint textureName) {
-    // Set texture parameters.
-    glBindTexture(GL_TEXTURE_2D, textureName);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-    // Push image data to texture.
-    QImage image(file);
-    QVector<quint8> imageData = imageToBytes(image);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.width(), image.height(),
-                 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData.data());
-}
-
 // --- OpenGL drawing
 
 /**
@@ -192,8 +198,6 @@ void MainView::paintGL() {
         phongShaderProgram.bind();
 
         updatePhongUniforms();
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textureName);
 
         glBindVertexArray(meshVAO);
         glDrawArrays(GL_TRIANGLES, 0, meshSize);
@@ -221,6 +225,13 @@ void MainView::updateNormalUniforms() {
     glUniformMatrix4fv(uniformProjectionTransformNormal, 1, GL_FALSE, projectionTransform.data());
     glUniformMatrix4fv(uniformModelViewTransformNormal, 1, GL_FALSE, meshTransform.data());
     glUniformMatrix3fv(uniformNormalTransformNormal, 1, GL_FALSE, meshNormalTransform.data());
+
+    glUniform1fv(uniformAmp, NWAVES, amp);
+    glUniform1fv(uniformFreq, NWAVES, freq);
+    glUniform1fv(uniformPhase, NWAVES, phase);
+
+    time += 1.0/60.0;
+    glUniform1fv(uniformTime, 1, &time);
 }
 
 void MainView::updatePhongUniforms() {
@@ -229,10 +240,16 @@ void MainView::updatePhongUniforms() {
     glUniformMatrix3fv(uniformNormalTransformPhong, 1, GL_FALSE, meshNormalTransform.data());
 
     glUniform4f(uniformMaterialPhong, material[0], material[1], material[2], material[3]);
+    glUniform3f(uniformMaterialColorPhong, materialColor[0], materialColor[1], materialColor[2]);
     glUniform3f(uniformLightPositionPhong, lightPosition[0], lightPosition[1], lightPosition[2]);
     glUniform3f(uniformLightColorPhong, lightColor.x(), lightColor.y(), lightColor.z());
 
-    glUniform1i(uniformTextureSamplerPhong, 0);
+    glUniform1fv(uniformAmp, NWAVES, amp);
+    glUniform1fv(uniformFreq, NWAVES, freq);
+    glUniform1fv(uniformPhase, NWAVES, phase);
+
+    time += 1.0/60.0;
+    glUniform1fv(uniformTime, 1, &time);
 }
 
 void MainView::updateProjectionTransform() {
