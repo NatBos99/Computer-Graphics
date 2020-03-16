@@ -1,8 +1,16 @@
-This is a README file
+Nathan Bosch (s3475344) and Winward Fang (s3205843)
 
-When submitting your assignment, describe (briefly) the changes you made and what difficulties you encountered in this file.
+We both took the course last year, but implemented things from scratch.
 
-Also describe what controls (key short-cuts, mouse clicks, mouse movement etc) and possible bonus assignments you implemented, so we can check them more easily.
+Uses Qt 5.5.1. Was built on linux on the school computers.
+If the default kit is not 5.5.1, go to projects, manage kits, select Desktop (under Manual) and change the Qt version to 5.5.1. Apply and click OK.
 
-If you have any suggestions/feedback for improving the practical assignments or support from teaching assistants, you may include it here OR post in anonymously on Nestor under Feedback.
-
+Assignment changes:
+Rotating a Model (1 point)
+ - We store the angles and rotation vectors for every object and rotate the object by that amount every frame
+Animating a Scene (3 points)
+ - We use three different meshes, two textures, and four objects. We have a cat, cube, and two spheres. The cube and spheres use
+   the RUG logo texture, whereas the cat uses the standard cat texture. The cat and the bottom sphere rotate by themselves,
+   whereas the top sphere is bouncing in place and the cube is rotating in place (through sin translations).
+ - We implement (or simulate) camera movement by allowing the user to rotate the objects around an axis (so all sides of the objects can be seen).
+ - The zooming is implemented by moving the objects closer to the camera.
