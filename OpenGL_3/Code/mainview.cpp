@@ -255,24 +255,29 @@ void MainView::initializeModelTransforms() {
     meshTransform[1].translate(2.0F, -1.0F, -4.0F);
     meshTransform[2].translate(-2.0F, 1.0F, -4.0F);
     meshTransform[3].translate(2.0F, 1.0F, -4.0F);
+    positions[0] = {-2.0F, -1.0F, -4.0F};
+    positions[1] = {2.0F, -1.0F, -4.0F};
+    positions[2] = {-2.0F, 1.0F, -4.0F};
+    positions[3] = {2.0F, 1.0F, -4.0F};
     updateModelTransforms();
 }
 
 void MainView::updateModelTransforms() {
     for(int i=0; i<4; i++) {
-        QVector3D rotationVec = (rotation-currentRotation);
-
-        meshTransform[i].rotate(rotationVec.x(), {1.0F, 0.0F, 0.0F});
-        meshTransform[i].rotate(rotationVec.y(), {0.0F, 1.0F, 0.0F});
-        meshTransform[i].rotate(rotationVec.z(), {0.0F, 0.0F, 1.0F});
-
-        meshTransform[i].scale((scale/currentScale));
-
-        meshNormalTransform[i] = meshTransform[i].normalMatrix();
+        rotations[i].setToIdentity();
+        rotations[i].rotate(rotation.x(), {1.0, 0.0, 0.0});
+        rotations[i].rotate(rotation.y(), {0.0, 1.0, 0.0});
+        rotations[i].rotate(rotation.z(), {0.0, 0.0, 1.0});
+        QVector3D newPos = {positions[i].x(), positions[i].y(), positions[i].z()+(8+scale-3)};
+        QVector3D vPrime = rotations[i] * newPos;
+        meshTransform[i].setToIdentity();
+        vPrime.setZ(vPrime.z()-(8+scale-3));
+        meshTransform[i].translate(vPrime);
+        meshTransform[i].translate({0, 0, scale-3});
+        meshTransform[i].rotate(rotation.x(), {1.0, 0.0, 0.0});
+        meshTransform[i].rotate(rotation.y(), {0.0, 1.0, 0.0});
+        meshTransform[i].rotate(rotation.z(), {0.0, 0.0, 1.0});
     }
-
-    currentScale = scale;
-    currentRotation = rotation;
 
     update();
 }

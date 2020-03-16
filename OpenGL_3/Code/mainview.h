@@ -12,8 +12,6 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLWidget>
 #include <QTimer>
-#include <QVector>
-#include <QVector3D>
 
 #include <memory>
 
@@ -51,9 +49,10 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     float currentScale = 1.0F;
     int time = 0;
     QVector3D rotation;
-    QVector3D currentRotation = {0.0F, 0.0F, 0.0F};
     QVector3D objectAxes[4];
     float angle[4];
+    QMatrix4x4 rotations[4];
+    QVector3D positions[4];
     QMatrix4x4 projectionTransform;
     QMatrix3x3 meshNormalTransform[4];
     QMatrix4x4 meshTransform[4];
