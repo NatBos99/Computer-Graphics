@@ -223,10 +223,6 @@ void MainView::updateNormalUniforms() {
     glUniformMatrix4fv(uniformProjectionTransformNormal, 1, GL_FALSE, projectionTransform.data());
     glUniformMatrix4fv(uniformModelViewTransformNormal, 1, GL_FALSE, meshTransform.data());
     glUniformMatrix3fv(uniformNormalTransformNormal, 1, GL_FALSE, meshNormalTransform.data());
-
-    glUniform4f(uniformMaterialNormal, material[0], material[1], material[2], material[3]);
-    glUniform3f(uniformLightPositionNormal, lightPosition[0], lightPosition[1], lightPosition[2]);
-    glUniform3f(uniformLightColorNormal, lightColor.x(), lightColor.y(), lightColor.z());
 }
 
 void MainView::updatePhongUniforms() {
