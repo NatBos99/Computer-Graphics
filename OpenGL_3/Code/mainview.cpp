@@ -236,9 +236,15 @@ void MainView::updateModelTransforms() {
                 break;
         }
 
-        meshTransform[i].rotate(rotation.x(), {1.0F, 0.0F, 0.0F});
-        meshTransform[i].rotate(rotation.y(), {0.0F, 1.0F, 0.0F});
-        meshTransform[i].rotate(rotation.z(), {0.0F, 0.0F, 1.0F});
+        QVector3D rotationVector = (rotation + currentRotation);
+
+        meshTransform[i].rotate(rotationVector.x(), {1.0F, 0.0F, 0.0F});
+        meshTransform[i].rotate(rotationVector.y(), {0.0F, 1.0F, 0.0F});
+        meshTransform[i].rotate(rotationVector.z(), {0.0F, 0.0F, 1.0F});
+
+        currentRotation.setX(rotation.x());
+        currentRotation.setX(rotation.y());
+        currentRotation.setX(rotation.z());
 
         meshTransform[i].scale(scale);
 
