@@ -27,7 +27,7 @@ MainView::~MainView() {
     qDebug() << "MainView destructor";
 
     makeCurrent();
-    for(int i=0; i<2; i++) {
+    for(int i=0; i<4; i++) {
         glDeleteTextures(1, &textureName[i]);
     }
 
@@ -65,7 +65,19 @@ void MainView::initializeGL() {
     createShaderProgram();
     loadMesh(":/models/sphere.obj", 0);
     loadMesh(":/models/cat.obj", 1);
+    loadMesh(":/models/sphere.obj", 2);
+    loadMesh(":/models/cube.obj", 3);
     loadTextures();
+
+    // Initialize Angles
+    objectAxes[0] = {0.0F, 0.0F, 1.0F};
+    objectAxes[1] = {0.0F, 0.0F, 1.0F};
+    objectAxes[2] = {0.0F, 0.0F, 1.0F};
+    objectAxes[3] = {0.0F, 0.0F, 1.0F};
+    angle[0] = 1.0F;
+    angle[1] = -1.0F;
+    angle[2] = 0.0F;
+    angle[3] = 0.0F;
 
     // Initialize transformations.
     updateProjectionTransform();
@@ -133,6 +145,12 @@ void MainView::loadTextures() {
 
     glGenTextures(1, &textureName[1]);
     loadTexture(":/textures/cat_diff.png", textureName[1]);
+
+    glGenTextures(1, &textureName[2]);
+    loadTexture(":/textures/rug_logo.png", textureName[2]);
+
+    glGenTextures(1, &textureName[3]);
+    loadTexture(":/textures/rug_logo.png", textureName[3]);
 }
 
 void MainView::loadTexture(QString file, GLuint textureName) {
@@ -167,7 +185,7 @@ void MainView::paintGL() {
     phongShaderProgram.bind();
 
     // Set the texture and draw the mesh.
-    for(int i=0; i<2; i++) {
+    for(int i=0; i<4; i++) {
         // Choose the selected shader.
         switch (currentShader) {
         case NORMAL:
@@ -204,14 +222,15 @@ void MainView::resizeGL(int newWidth, int newHeight) {
 }
 
 void MainView::updatePhongUniforms(int i) {
-    meshTransform[i].rotate(1.0, {0.0F, 0.0F, 1.0F});
+    meshTransform[i].rotate(angle[i], objectAxes[i]);
+    angleCount[i] += 1;
     meshNormalTransform[i] = meshTransform[i].normalMatrix();
 
     glUniformMatrix4fv(uniformProjectionTransformPhong, 1, GL_FALSE, projectionTransform.data());
     glUniformMatrix4fv(uniformModelViewTransformPhong, 1, GL_FALSE, meshTransform[i].data());
     glUniformMatrix3fv(uniformNormalTransformPhong, 1, GL_FALSE, meshNormalTransform[i].data());
-    glUniform4fv(uniformMaterialPhong, 1, &material[0]);
-    glUniform3fv(uniformLightPositionPhong, 1, &lightPosition[0]);
+    glUniform4f(uniformMaterialPhong, material[0], material[1], material[2], material[3]);
+    glUniform3f(uniformLightPositionPhong, lightPosition[0], lightPosition[1], lightPosition[2]);
     glUniform3f(uniformLightColorPhong, lightColor.x(), lightColor.y(), lightColor.z());
 
     glUniform1i(uniformTextureSamplerPhong, 0);
@@ -224,7 +243,7 @@ void MainView::updateProjectionTransform() {
 }
 
 void MainView::updateModelTransforms() {
-    for(int i=0; i<2; i++) {
+    for(int i=0; i<4; i++) {
         meshTransform[i].setToIdentity();
 
         switch (i) {
@@ -234,9 +253,16 @@ void MainView::updateModelTransforms() {
             case 1:
                 meshTransform[i].translate(2.0F, -1.0F, -4.0F);
                 break;
+            case 2:
+                meshTransform[i].translate(-2.0F, 1.0F, -4.0F);
+                break;
+            case 3:
+                meshTransform[i].translate(2.0F, 1.0F, -4.0F);
+                break;
         }
 
-        QVector3D rotationVector = (rotation + currentRotation);
+        QVector3D rotationVector = (rotation + currentRotation + angle[i]*angleCount[i]*objectAxes[i]);
+        angleCount[i] = 0;
 
         meshTransform[i].rotate(rotationVector.x(), {1.0F, 0.0F, 0.0F});
         meshTransform[i].rotate(rotationVector.y(), {0.0F, 1.0F, 0.0F});
@@ -256,7 +282,7 @@ void MainView::updateModelTransforms() {
 // --- OpenGL cleanup helpers
 
 void MainView::destroyModelBuffers() {
-    for(int i=0; i<2; i++) {
+    for(int i=0; i<4; i++) {
         glDeleteBuffers(1, &meshVBO[i]);
         glDeleteVertexArrays(1, &meshVAO[i]);
     }

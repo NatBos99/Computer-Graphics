@@ -37,20 +37,23 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     GLint uniformTextureSamplerPhong;
 
     // Buffers
-    GLuint meshVAO[2];
-    GLuint meshVBO[2];
-    GLuint meshSize[2];
+    GLuint meshVAO[4];
+    GLuint meshVBO[4];
+    GLuint meshSize[4];
 
     // Texture
-    GLuint textureName[2];
+    GLuint textureName[4];
 
     // Transforms
     float scale = 1.0F;
     QVector3D rotation;
     QVector3D currentRotation = {0.0F, 0.0F, 0.0F};
+    QVector3D objectAxes[4];
+    float angle[4];
+    float angleCount[4] = {0.0F, 0.0F, 0.0F, 0.0F};
     QMatrix4x4 projectionTransform;
-    QMatrix3x3 meshNormalTransform[2];
-    QMatrix4x4 meshTransform[2];
+    QMatrix3x3 meshNormalTransform[4];
+    QMatrix4x4 meshTransform[4];
 
     // Phong model constants.
     QVector4D material = {0.5F, 0.5F, 0.5F, 5.0F};
