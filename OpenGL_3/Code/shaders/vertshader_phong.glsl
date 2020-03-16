@@ -25,7 +25,7 @@ void main()
     gl_Position  = projectionTransform * modelViewTransform * vec4(vertCoordinates_in, 1.0F);
 
     // Pass the required information to the fragment shader stage.
-    relativeLightPosition = vec3(modelViewTransform * vec4(lightPosition, 1.0F));
+    relativeLightPosition = lightPosition;//vec3(modelViewTransform * vec4(lightPosition, 1.0F));
     vertPosition = vec3(modelViewTransform * vec4(vertCoordinates_in, 1.0F));
     vertNormal   = normalize(normalTransform * vertNormals_in);
     texCoords    = texCoords_in;

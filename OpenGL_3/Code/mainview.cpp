@@ -269,8 +269,8 @@ void MainView::updateModelTransforms() {
         meshTransform[i].rotate(rotationVector.z(), {0.0F, 0.0F, 1.0F});
 
         currentRotation.setX(rotation.x());
-        currentRotation.setX(rotation.y());
-        currentRotation.setX(rotation.z());
+        currentRotation.setY(rotation.y());
+        currentRotation.setZ(rotation.z());
 
         meshTransform[i].scale(scale);
 
