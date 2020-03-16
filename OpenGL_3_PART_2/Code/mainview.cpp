@@ -173,27 +173,36 @@ void MainView::paintGL() {
     // Clear the screen before rendering
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    phongShaderProgram.bind();
+
 
     // Choose the selected shader.
     switch (currentShader) {
     case NORMAL:
+        normalShaderProgram.bind();
+
         updateNormalUniforms();
+
+        glBindVertexArray(meshVAO);
+        glDrawArrays(GL_TRIANGLES, 0, meshSize);
+
+        normalShaderProgram.release();
         break;
     case GOURAUD:
         qDebug() << "Gouraud shader program not implemented";
         break;
     case PHONG:
+        phongShaderProgram.bind();
+
         updatePhongUniforms();
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureName);
+
+        glBindVertexArray(meshVAO);
+        glDrawArrays(GL_TRIANGLES, 0, meshSize);
+
+        phongShaderProgram.release();
         break;
     }
-
-    glBindVertexArray(meshVAO);
-    glDrawArrays(GL_TRIANGLES, 0, meshSize);
-
-    phongShaderProgram.release();
 }
 
 /**
@@ -256,10 +265,10 @@ void MainView::updateModelTransforms() {
 // --- OpenGL cleanup helpers
 
 void MainView::destroyModelBuffers() {
-    glDeleteBuffers(1, &meshVBOPhong);
-    glDeleteVertexArrays(1, &meshVAOPhong);
-    glDeleteBuffers(1, &meshVBONormal);
-    glDeleteVertexArrays(1, &meshVAONormal);
+    glDeleteBuffers(1, &meshVBO);
+    glDeleteVertexArrays(1, &meshVAO);
+    glDeleteBuffers(1, &meshVBO);
+    glDeleteVertexArrays(1, &meshVAO);
 }
 
 // --- Public interface

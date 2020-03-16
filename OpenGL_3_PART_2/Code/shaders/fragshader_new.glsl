@@ -8,6 +8,7 @@ in vec3 vertNormal;
 in vec3 vertPosition;
 in vec3 relativeLightPosition;
 in vec2 gridCoords;
+in vec3 normal;
 
 // Illumination model constants.
 uniform vec4 material;
@@ -18,10 +19,5 @@ out vec4 fColor;
 
 void main()
 {
-    vec3 normal = normalize(vertNormal);
-
-    float u = gridCoords.x;
-    float v = gridCoords.y;
-
-    fColor = vec4(u, v, 0.0F, 1.0F);
+    fColor = vec4(normal.x, normal.y, normal.z, 1.0F);
 }

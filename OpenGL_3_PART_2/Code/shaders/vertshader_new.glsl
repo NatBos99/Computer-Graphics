@@ -19,14 +19,20 @@ out vec3 vertNormal;
 out vec3 vertPosition;
 out vec3 relativeLightPosition;
 out vec2 gridCoords;
+out vec3 normal;
 
 void main()
 {
-    gl_Position  = projectionTransform * modelViewTransform * vec4(vertCoordinates_in, 1.0F);
+    vec3 vertCoords = vertCoordinates_in;
+    gridCoords    = gridCoords_in;
+    vertCoords.z = vertPosition.z + 0.2*sin(30.0F*gridCoords.x);
+    gl_Position  = projectionTransform * modelViewTransform * vec4(vertCoords, 1.0F);
 
     // Pass the required information to the fragment shader stage.
     relativeLightPosition = lightPosition;//vec3(modelViewTransform * vec4(lightPosition, 1.0F));
     vertPosition = vec3(modelViewTransform * vec4(vertCoordinates_in, 1.0F));
     vertNormal   = normalize(normalTransform * vertNormals_in);
-    gridCoords    = gridCoords_in;
+
+
+    normal = normalize(vec3(6.0*cos(30.0F*gridCoords.x), 0.0F, 1.0F));
 }

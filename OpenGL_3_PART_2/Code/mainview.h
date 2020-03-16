@@ -50,10 +50,8 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     GLint uniformTextureSamplerNormal;
 
     // Buffers
-    GLuint meshVAOPhong;
-    GLuint meshVBOPhong;
-    GLuint meshVAONormal;
-    GLuint meshVBONormal;
+    GLuint meshVAO;
+    GLuint meshVBO;
     GLuint meshSize;
 
     // Texture
