@@ -173,8 +173,6 @@ void MainView::paintGL() {
     // Clear the screen before rendering
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-
     // Choose the selected shader.
     switch (currentShader) {
     case NORMAL:
