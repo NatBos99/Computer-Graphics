@@ -6,11 +6,39 @@ Uses Qt 5.5.1. Was built on linux on the school computers.
 If the default kit is not 5.5.1, go to projects, manage kits, select Desktop (under Manual) and change the Qt version to 5.5.1. Apply and click OK.
 
 Assignment changes:
-Rotating a Model (1 point)
- - We store the angles and rotation vectors for every object and rotate the object by that amount every frame
-Animating a Scene (3 points)
- - We use three different meshes, two textures, and four objects. We have a cat, cube, and two spheres. The cube and spheres use
-   the RUG logo texture, whereas the cat uses the standard cat texture. The cat and the bottom sphere rotate by themselves,
-   whereas the top sphere is bouncing in place and the cube is rotating in place (through sin translations).
- - We implement (or simulate) camera movement by allowing the user to rotate the objects around an axis (so all sides of the objects can be seen).
- - The zooming is implemented by moving the objects closer to the camera.
+
+Part 1: Common Animation (4 points)
+	Rotating a Model (1 point of 4)
+	 - We store the angles and rotation vectors for every object in the Mainview class and rotate the object by that amount every frame
+	Animating a Scene (3 points of 4)
+	 - We use three different meshes, two textures, and four objects. We have a cat, cube, and two spheres. The cube and spheres use
+		 the RUG logo texture, whereas the cat uses the standard cat texture. The cat and the bottom sphere rotate by themselves,
+		 whereas the top sphere is bouncing in place and the cube is rotating in place (through sin translations).
+	 - We implement (or simulate) camera movement by allowing the user to rotate the objects around an axis (so all sides of the objects can be seen).
+	 - The zooming is implemented by moving the objects closer to the camera.
+	 - We also simulate camera movement by allowing the user to move in the scene through WASD, Shift and Space. These apply translations to all objects
+	   in the scene to simulate movement. These translations are global, not dependent on the rotation of the objects.
+
+Part 2 : Water Shader (4 points)
+	Height Map (1 point of 4)
+	 - For preview see height_map.png in the screenshots folder.
+	 - Added another shader program (normal shader).
+	 - It was implemented in what is now the normal shader. To see the color mapping for the height map, 
+		 go to fragshader_normal.glsl and uncomment line 15 and comment out line 16.
+	 - The coloring is a mapping of u and v (grid-coordinates) to the red and green channel respectively. Blue is set to zero.
+	 - The height is calculated by taking the z-coordinate of the vertex, and adding a sine function of u ( f(u) = A*sin(2*PI*freq*u + phase) ).
+  Normals (1 point of 4)
+	 - For preview see normal.png in the screenshots folder.
+	 - Normals are calculated using the derivative of the aforementioned sine function ( f'(u) = 2*PI*A*cos(2*PI*freq*u + phase) ).
+	 - Colors are a mapping of the normals (xyz to RGB). Color intensity adjusted using 0.5*N + (0.5, 0.5, 0.5).
+	Multiple Waves (1 point of 4)
+	 - Added uniforms and arrays to accomodate multiple waves.
+	 - Height is the sum of the sine waves.
+	 - The normal is the sum of the derivates of the sine waves.
+	 - Defined two functions in the vertex shaders. One for computing the sine, the other for computing the sine derivative.
+	 - Implemented Phong. The results can be seen using the Phong shader.
+	 - The color is an interpolation between two handpicked colors using mix() and smoothstep().
+	Animating Water (1 point of 4)
+	 - Animated water by adding a uniform time. This uniform is incremented by 1.0/60.0 every frame. The sine and its derivative are adjusted by
+			- f(u) = A*sin(2*PI*freq*u + phase + time)
+			- f'(u) = 2*PI*A*cos(2*PI*freq*u + phase + time)

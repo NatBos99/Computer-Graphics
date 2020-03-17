@@ -50,8 +50,10 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     int time = 0;
     QVector3D rotation;
     QVector3D objectAxes[4];
+    QVector3D movement = {0.0F, 0.0F, 0.0F};
+    QVector3D totalTranslation[4];
+    QVector3D totalRotation[4];
     float angle[4];
-    QMatrix4x4 rotations[4];
     QVector3D positions[4];
     QMatrix4x4 projectionTransform;
     QMatrix3x3 meshNormalTransform[4];

@@ -9,13 +9,15 @@ Assignment changes:
 
 Part 1: Common Animation (4 points)
 	Rotating a Model (1 point of 4)
-	 - We store the angles and rotation vectors for every object and rotate the object by that amount every frame
+	 - We store the angles and rotation vectors for every object in the Mainview class and rotate the object by that amount every frame
 	Animating a Scene (3 points of 4)
 	 - We use three different meshes, two textures, and four objects. We have a cat, cube, and two spheres. The cube and spheres use
 		 the RUG logo texture, whereas the cat uses the standard cat texture. The cat and the bottom sphere rotate by themselves,
 		 whereas the top sphere is bouncing in place and the cube is rotating in place (through sin translations).
 	 - We implement (or simulate) camera movement by allowing the user to rotate the objects around an axis (so all sides of the objects can be seen).
 	 - The zooming is implemented by moving the objects closer to the camera.
+	 - We also simulate camera movement by allowing the user to move in the scene through WASD, Shift and Space. These apply translations to all objects
+	   in the scene to simulate movement. These translations are global, not dependent on the rotation of the objects.
 
 Part 2 : Water Shader (4 points)
 	Height Map (1 point of 4)

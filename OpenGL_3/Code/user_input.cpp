@@ -4,23 +4,33 @@
 
 // Triggered by pressing a key
 void MainView::keyPressEvent(QKeyEvent *ev) {
+    float magnitude = 0.5F;
     switch(ev->key()) {
-    case 'A': qDebug() << "A pressed"; break;
+    case 'W': qDebug() << "W pressed"; movement = {0.0F, 0.0F, magnitude}; break;
+    case 'A': qDebug() << "A pressed"; movement = {magnitude, 0.0F, 0.0F}; break;
+    case 'S': qDebug() << "S pressed"; movement = {0.0F, 0.0F, -magnitude}; break;
+    case 'D': qDebug() << "D pressed"; movement = {-magnitude, 0.0F, 0.0F}; break;
+    case Qt::Key_Shift: qDebug() << "Shift pressed"; movement = {0.0F, magnitude, 0.0F}; break;
+    case Qt::Key_Space: qDebug() << "Space pressed"; movement = {0.0F, -magnitude, 0.0F}; break;
     default:
         // ev->key() is an integer. For alpha numeric characters keys it equivalent with the char value ('A' == 65, '1' == 49)
         // Alternatively, you could use Qt Key enums, see http://doc.qt.io/qt-5/qt.html#Key-enum
         qDebug() << ev->key() << "pressed";
         break;
     }
-
     // Used to update the screen after changes
-    update();
+    updateModelTransforms();
 }
 
 // Triggered by releasing a key
 void MainView::keyReleaseEvent(QKeyEvent *ev) {
     switch(ev->key()) {
+    case 'W': qDebug() << "W released"; break;
     case 'A': qDebug() << "A released"; break;
+    case 'S': qDebug() << "S released"; break;
+    case 'D': qDebug() << "D released"; break;
+    case 16777248: qDebug() << "Shift released"; break;
+    case 32: qDebug() << "Space released"; break;
     default:
         qDebug() << ev->key() << "released";
         break;

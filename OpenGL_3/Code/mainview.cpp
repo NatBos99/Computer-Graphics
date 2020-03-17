@@ -224,11 +224,15 @@ void MainView::resizeGL(int newWidth, int newHeight) {
 
 void MainView::updatePhongUniforms(int i) {
     meshTransform[i].rotate(angle[i], objectAxes[i]);
+    totalRotation[i] += angle[i]*objectAxes[i];
 
     time++;
 
-    meshTransform[2].translate(-((int) (time % 100 - 50))/5000.0, 0.0, 0.0F);
+    meshTransform[2].translate(-((int) (time % 100 - 50))/5000.0F, 0.0, 0.0F);
+    totalTranslation[2].setX(totalTranslation[2].x() - ((int) (time % 100 - 50)/5000.0));
     meshTransform[3].translate(cos(2*time*PI / 1000.0)/100.0, sin(2*time*PI / 1000.0)/100.0, 0.0F);
+    totalTranslation[3].setX(totalTranslation[3].x()+cos(2*time*PI / 1000.0)/100.0);
+    totalTranslation[3].setY(totalTranslation[3].y()+sin(2*time*PI / 1000.0)/100.0);
 
     if (time == 1000) time = 0;
 
@@ -263,21 +267,28 @@ void MainView::initializeModelTransforms() {
 }
 
 void MainView::updateModelTransforms() {
+    QMatrix4x4 rotations;
+    rotations.rotate(rotation.x(), {1.0, 0.0, 0.0});
+    rotations.rotate(rotation.y(), {0.0, 1.0, 0.0});
+    rotations.rotate(rotation.z(), {0.0, 0.0, 1.0});
+
     for(int i=0; i<4; i++) {
-        rotations[i].setToIdentity();
-        rotations[i].rotate(rotation.x(), {1.0, 0.0, 0.0});
-        rotations[i].rotate(rotation.y(), {0.0, 1.0, 0.0});
-        rotations[i].rotate(rotation.z(), {0.0, 0.0, 1.0});
+        positions[i] += movement;
         QVector3D newPos = {positions[i].x(), positions[i].y(), positions[i].z()+(8+scale-3)};
-        QVector3D vPrime = rotations[i] * newPos;
-        meshTransform[i].setToIdentity();
+        QVector3D vPrime = rotations * newPos;
         vPrime.setZ(vPrime.z()-(8+scale-3));
-        meshTransform[i].translate(vPrime);
+        meshTransform[i].setToIdentity();
+        meshTransform[i].translate(vPrime+totalTranslation[i]);
+        totalTranslation[i] = {0.0F, 0.0F, 0.0F};
         meshTransform[i].translate({0, 0, scale-3});
-        meshTransform[i].rotate(rotation.x(), {1.0, 0.0, 0.0});
-        meshTransform[i].rotate(rotation.y(), {0.0, 1.0, 0.0});
-        meshTransform[i].rotate(rotation.z(), {0.0, 0.0, 1.0});
+        QVector3D rotationVec = rotation + totalRotation[i];
+        totalRotation[i] = {0.0F, 0.0F, 0.0F};
+        meshTransform[i].rotate(rotationVec.x(), {1.0, 0.0, 0.0});
+        meshTransform[i].rotate(rotationVec.y(), {0.0, 1.0, 0.0});
+        meshTransform[i].rotate(rotationVec.z(), {0.0, 0.0, 1.0});
     }
+
+    movement = {0.0F, 0.0F, 0.0F};
 
     update();
 }
